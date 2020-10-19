@@ -11,11 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_change_color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change color"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:theme="@style/Theme.MaterialComponents"
+        app:cornerRadius="24dp"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

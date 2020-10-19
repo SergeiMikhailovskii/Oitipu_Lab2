@@ -1,5 +1,6 @@
 package com.mikhailovskii.oitipu.lab2
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,21 +17,22 @@ class MainActivity : AppCompatActivity() {
             initializePen()
             initializeEraser()
             setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
-            eraserSize = 10f
             penSize = 10f
             penColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
         }
 
         btn_change_color.setOnClickListener {
             ColorPickerDialogBuilder.with(btn_change_color.context)
-                    .setTitle("Choose color")
-                    .initialColor(R.color.colorPrimaryDark)
-                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                    .density(12)
-                    .setOnColorSelectedListener {
-                        drawing_view.penColor = it
-                    }.build()
-                    .show()
+                .setTitle("Choose color")
+                .initialColor(R.color.colorPrimaryDark)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener {
+                    drawing_view.penSize = 10f
+                    drawing_view.penColor = it
+                    btn_change_color.backgroundTintList = ColorStateList.valueOf(it)
+                }.build()
+                .show()
         }
 
         btn_erase.setOnClickListener {
