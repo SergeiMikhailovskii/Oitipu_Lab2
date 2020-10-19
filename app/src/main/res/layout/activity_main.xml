@@ -15,11 +15,11 @@
         android:id="@+id/btn_change_color"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:backgroundTint="@color/colorPrimary"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:theme="@style/Theme.MaterialComponents"
         app:cornerRadius="24dp"
-        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,5 +30,21 @@
         android:text="Erase"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/sb_eraser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/sb_pen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/sb_eraser" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

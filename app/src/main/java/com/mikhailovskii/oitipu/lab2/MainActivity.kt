@@ -2,6 +2,7 @@ package com.mikhailovskii.oitipu.lab2
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.flask.colorpicker.ColorPickerView
@@ -38,6 +39,33 @@ class MainActivity : AppCompatActivity() {
         btn_erase.setOnClickListener {
             drawing_view.eraserSize = 50f
         }
+
+        sb_eraser.max = 200
+        sb_pen.max = 100000
+
+        sb_eraser.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                drawing_view.eraserSize = (progress + 10).toFloat()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+        sb_pen.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                drawing_view.penSize = (progress + 1).toFloat()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
 
     }
 }
