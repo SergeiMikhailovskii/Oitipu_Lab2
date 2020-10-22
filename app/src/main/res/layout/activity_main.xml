@@ -11,40 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_change_color"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:theme="@style/Theme.MaterialComponents"
-        app:cornerRadius="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_erase"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_settings"
         android:text="Erase"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/sb_eraser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/sb_pen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/sb_eraser" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

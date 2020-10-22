@@ -26,13 +26,13 @@ constructor(
         private const val TOUCH_TOLERANCE = 4
     }
 
-    private var penSize = 10f
+    var penSize = 10f
         set(value) {
             field = value
             initializePen()
         }
 
-    private var eraserSize = 10f
+    var eraserSize = 10f
         set(value) {
             field = value
             initializeEraser()
@@ -64,7 +64,11 @@ constructor(
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         }
-        canvas = Canvas(bitmap!!)
+
+        bitmap?.let {
+            canvas = Canvas(it)
+        }
+
         canvas?.drawColor(Color.TRANSPARENT)
     }
 
@@ -118,11 +122,11 @@ constructor(
     }
 
     private fun touchMove(x: Float?, y: Float?) {
-        val dx = abs(x ?: 0f - localX)
-        val dy = abs(y ?: 0f - localY)
+        val dx = abs((x ?: 0f) - localX)
+        val dy = abs((y ?: 0f) - localY)
 
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            path.quadTo(localX, localY, (x ?: 0f + localX) / 2, (y ?: 0f + localY) / 2)
+            path.quadTo(localX, localY, ((x ?: 0f) + localX) / 2, ((y ?: 0f) + localY) / 2)
             localX = x ?: 0f
             localY = y ?: 0f
         }
@@ -158,7 +162,7 @@ constructor(
     fun initializeEraser() {
         drawMode = false
         paint.apply {
-            color = Color.parseColor("f4f4f4")
+            color = Color.WHITE
             style = Paint.Style.STROKE
             strokeWidth = eraserSize
             xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
@@ -167,6 +171,10 @@ constructor(
 
     fun clear() {
         canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+    }
+
+    fun changeBackground(color: Int = Color.WHITE) {
+        canvas?.drawColor(color)
     }
 
     fun setPenColor(@ColorInt color: Int) {
