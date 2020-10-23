@@ -29,13 +29,15 @@ class SettingsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     var eraserSeekBarCallback: ((Int) -> Unit)? = null
     var penColorCallback: ((Int) -> Unit)? = null
 
+    var lineCallback: (() -> Unit)? = null
+    var rectangleCallback: (() -> Unit)? = null
+    var circleCallback: (() -> Unit)? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_setting_bottom_sheet, container, false)
-    }
+    ): View = inflater.inflate(R.layout.fragment_setting_bottom_sheet, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,6 +90,18 @@ class SettingsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     btn_change_color.backgroundTintList = ColorStateList.valueOf(it)
                 }.build()
                 .show()
+        }
+
+        btn_circle.setOnClickListener {
+            circleCallback?.invoke()
+        }
+
+        btn_line.setOnClickListener {
+            lineCallback?.invoke()
+        }
+
+        btn_rectangle.setOnClickListener {
+            rectangleCallback?.invoke()
         }
 
     }

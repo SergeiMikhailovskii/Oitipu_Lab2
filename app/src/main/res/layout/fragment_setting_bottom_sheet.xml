@@ -22,9 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_eraser"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/sb_pen"
         app:layout_constraintStart_toEndOf="@id/iv_eraser"
         app:layout_constraintTop_toTopOf="@id/iv_eraser" />
 
@@ -44,9 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_pen"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_change_color"
         app:layout_constraintStart_toEndOf="@id/iv_pen"
         app:layout_constraintTop_toTopOf="@id/iv_pen" />
 
@@ -55,14 +54,49 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/colorPrimary"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:theme="@style/Theme.MaterialComponents"
         app:cornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_pen"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_line"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="#F3EECB"
+        android:padding="4dp"
+        android:src="@drawable/ic_diagonal_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_pen" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_circle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="#F3EECB"
+        android:padding="4dp"
+        android:src="@drawable/ic_circle"
+        app:layout_constraintStart_toEndOf="@id/btn_line"
+        app:layout_constraintTop_toBottomOf="@id/iv_pen" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_rectangle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="#F3EECB"
+        android:padding="4dp"
+        android:src="@drawable/ic_rectangle"
+        app:layout_constraintStart_toEndOf="@id/btn_circle"
+        app:layout_constraintTop_toBottomOf="@id/iv_pen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

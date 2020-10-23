@@ -40,7 +40,12 @@ constructor(
 
     private var localX = 0f
     private var localY = 0f
-    private var drawMode = true
+
+    private var startRect = PointF(0f, 0f)
+    private var endRect = PointF(0f, 0f)
+
+    private var isDrawMode = true
+    var isRectangleMode = false
 
     private val path = Path()
     private val bitmapPaint = Paint(Paint.DITHER_FLAG)
@@ -87,25 +92,43 @@ constructor(
 
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                paint.xfermode =
-                    PorterDuffXfermode(if (drawMode) PorterDuff.Mode.SCREEN else PorterDuff.Mode.CLEAR)
-                touchStart(x, y)
+                if (isRectangleMode) {
+                    startRect.x = event.x
+                    startRect.y = event.y
+                    endRect.x = event.x
+                    endRect.y = event.y
+                } else {
+                    paint.xfermode =
+                        PorterDuffXfermode(if (isDrawMode) PorterDuff.Mode.SCREEN else PorterDuff.Mode.CLEAR)
+                    touchStart(x, y)
+                }
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
-                touchMove(x, y)
 
-                if (!drawMode) {
+                if (!isDrawMode) {
                     path.lineTo(this.localX, this.localY)
                     path.reset()
                     path.moveTo(x ?: 0f, y ?: 0f)
+                } else {
+                    if (isRectangleMode) {
+                        endRect.x = event.x
+                        endRect.y = event.y
+                    } else {
+                        touchMove(x, y)
+                        canvas?.drawPath(path, paint)
+                    }
                 }
 
-                canvas?.drawPath(path, paint)
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                touchUp()
+                if (isRectangleMode) {
+                    canvas?.drawRect(startRect.x, startRect.y, endRect.x, endRect.y, paint)
+                } else {
+                    touchUp()
+                }
+
                 invalidate()
             }
         }
@@ -118,7 +141,7 @@ constructor(
         canvas?.drawPath(path, paint)
         path.reset()
         paint.xfermode =
-            PorterDuffXfermode(if (drawMode) PorterDuff.Mode.SCREEN else PorterDuff.Mode.CLEAR)
+            PorterDuffXfermode(if (isDrawMode) PorterDuff.Mode.SCREEN else PorterDuff.Mode.CLEAR)
     }
 
     private fun touchMove(x: Float?, y: Float?) {
@@ -147,7 +170,7 @@ constructor(
     }
 
     fun initializePen() {
-        drawMode = true
+        isDrawMode = true
         paint.apply {
             isAntiAlias = true
             isDither = true
@@ -160,7 +183,7 @@ constructor(
     }
 
     fun initializeEraser() {
-        drawMode = false
+        isDrawMode = false
         paint.apply {
             color = Color.WHITE
             style = Paint.Style.STROKE

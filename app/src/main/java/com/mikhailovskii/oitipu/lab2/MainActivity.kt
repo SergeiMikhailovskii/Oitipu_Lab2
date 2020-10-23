@@ -40,6 +40,14 @@ class MainActivity : AppCompatActivity() {
                 drawing_view.setPenColor(it)
             }
 
+            dialog.lineCallback = {
+                drawing_view.isRectangleMode = false
+            }
+
+            dialog.rectangleCallback = {
+                drawing_view.isRectangleMode = true
+            }
+
         }
 
 
