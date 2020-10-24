@@ -50,16 +50,19 @@ class MainActivity : AppCompatActivity() {
                 lineCallback = {
                     binding.drawingView.isRectangleMode = false
                     binding.drawingView.isRoundMode = false
+                    dialog.dismiss()
                 }
 
                 rectangleCallback = {
                     binding.drawingView.isRectangleMode = true
                     binding.drawingView.isRoundMode = false
+                    dialog.dismiss()
                 }
 
                 circleCallback = {
                     binding.drawingView.isRectangleMode = false
                     binding.drawingView.isRoundMode = true
+                    dialog.dismiss()
                 }
 
             }
