@@ -3,15 +3,20 @@ package com.mikhailovskii.oitipu.lab2
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.mikhailovskii.oitipu.lab2.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        drawing_view.apply {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.drawingView.apply {
             initializePen()
             initializeEraser()
             setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
@@ -19,42 +24,42 @@ class MainActivity : AppCompatActivity() {
             setPenColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         }
 
-        iv_settings.setOnClickListener {
-//            drawing_view.changeBackground()
+        binding.ivSettings.setOnClickListener {
+//            binding.drawingView.changeBackground()
             val dialog = SettingsBottomSheetDialogFragment.newInstance(
-                drawing_view.penSize.toInt(),
-                drawing_view.eraserSize.toInt(),
-                drawing_view.getPenColor()
+                binding.drawingView.penSize.toInt(),
+                binding.drawingView.eraserSize.toInt(),
+                binding.drawingView.getPenColor()
             )
 
             dialog.apply {
                 show(supportFragmentManager, "SettingsDialog")
 
                 eraserSeekBarCallback = {
-                    drawing_view.eraserSize = it.toFloat()
+                    binding.drawingView.eraserSize = it.toFloat()
                 }
 
                 penSeekBarCallback = {
-                    drawing_view.penSize = it.toFloat()
+                    binding.drawingView.penSize = it.toFloat()
                 }
 
                 penColorCallback = {
-                    drawing_view.setPenColor(it)
+                    binding.drawingView.setPenColor(it)
                 }
 
                 lineCallback = {
-                    drawing_view.isRectangleMode = false
-                    drawing_view.isRoundMode = false
+                    binding.drawingView.isRectangleMode = false
+                    binding.drawingView.isRoundMode = false
                 }
 
                 rectangleCallback = {
-                    drawing_view.isRectangleMode = true
-                    drawing_view.isRoundMode = false
+                    binding.drawingView.isRectangleMode = true
+                    binding.drawingView.isRoundMode = false
                 }
 
                 circleCallback = {
-                    drawing_view.isRectangleMode = false
-                    drawing_view.isRoundMode = true
+                    binding.drawingView.isRectangleMode = false
+                    binding.drawingView.isRoundMode = true
                 }
 
             }

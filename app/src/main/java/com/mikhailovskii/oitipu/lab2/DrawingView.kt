@@ -12,17 +12,12 @@ import androidx.annotation.ColorInt
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import kotlin.math.abs
 
 class DrawingView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-
-    companion object {
-        private const val TOUCH_TOLERANCE = 4
-    }
 
     var penSize = 10f
         set(value) {
@@ -91,16 +86,10 @@ class DrawingView @JvmOverloads constructor(
 
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (isRectangleMode || isRoundMode) {
-                    startRect.x = event.x
-                    startRect.y = event.y
-                    endRect.x = event.x
-                    endRect.y = event.y
-                } else {
-                    paint.xfermode =
-                        PorterDuffXfermode(if (isDrawMode) PorterDuff.Mode.SCREEN else PorterDuff.Mode.CLEAR)
-                    touchStart(x, y)
-                }
+                startRect.x = event.x
+                startRect.y = event.y
+                endRect.x = event.x
+                endRect.y = event.y
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
@@ -110,12 +99,13 @@ class DrawingView @JvmOverloads constructor(
                     path.reset()
                     path.moveTo(x ?: 0f, y ?: 0f)
                 } else {
-                    if (isRectangleMode || isRoundMode) {
-                        endRect.x = event.x
-                        endRect.y = event.y
-                    } else {
-                        touchMove(x, y)
-                        canvas?.drawPath(path, paint)
+                    endRect.x = event.x
+                    endRect.y = event.y
+
+                    if (!(isRectangleMode || isRoundMode)) {
+                        canvas?.drawLine(startRect.x, startRect.y, endRect.x, endRect.y, paint)
+                        startRect.x = endRect.x
+                        startRect.y = endRect.y
                     }
                 }
 
@@ -123,12 +113,20 @@ class DrawingView @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP -> {
                 when {
-                    isRectangleMode -> canvas?.drawRect(startRect.x, startRect.y, endRect.x, endRect.y, paint)
-                    isRoundMode -> canvas?.drawOval(startRect.x, startRect.y, endRect.x, endRect.y, paint)
-
-                    else -> {
-                        touchUp()
-                    }
+                    isRectangleMode -> canvas?.drawRect(
+                        startRect.x,
+                        startRect.y,
+                        endRect.x,
+                        endRect.y,
+                        paint
+                    )
+                    isRoundMode -> canvas?.drawOval(
+                        startRect.x,
+                        startRect.y,
+                        endRect.x,
+                        endRect.y,
+                        paint
+                    )
                 }
 
                 invalidate()
@@ -136,39 +134,6 @@ class DrawingView @JvmOverloads constructor(
         }
 
         return true
-    }
-
-    private fun touchUp() {
-        path.lineTo(localX, localY)
-        canvas?.drawPath(path, paint)
-        path.reset()
-        paint.xfermode =
-            PorterDuffXfermode(if (isDrawMode) PorterDuff.Mode.SCREEN else PorterDuff.Mode.CLEAR)
-    }
-
-    private fun touchMove(x: Float?, y: Float?) {
-        val dx = abs((x ?: 0f) - localX)
-        val dy = abs((y ?: 0f) - localY)
-
-        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            path.quadTo(localX, localY, ((x ?: 0f) + localX) / 2, ((y ?: 0f) + localY) / 2)
-            localX = x ?: 0f
-            localY = y ?: 0f
-        }
-
-        canvas?.drawPath(path, paint)
-    }
-
-    private fun touchStart(x: Float?, y: Float?) {
-        path.apply {
-            reset()
-            moveTo(x ?: 0f, y ?: 0f)
-        }
-
-        localX = x ?: 0f
-        localY = y ?: 0f
-
-        canvas?.drawPath(path, paint)
     }
 
     fun initializePen() {

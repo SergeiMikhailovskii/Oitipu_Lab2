@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.mikhailovskii.oitipu.lab2"
         minSdkVersion 24
