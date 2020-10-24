@@ -14,9 +14,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import kotlin.math.abs
 
-class DrawingView
-@JvmOverloads
-constructor(
+class DrawingView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -46,6 +44,7 @@ constructor(
 
     private var isDrawMode = true
     var isRectangleMode = false
+    var isRoundMode = false
 
     private val path = Path()
     private val bitmapPaint = Paint(Paint.DITHER_FLAG)
@@ -92,7 +91,7 @@ constructor(
 
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (isRectangleMode) {
+                if (isRectangleMode || isRoundMode) {
                     startRect.x = event.x
                     startRect.y = event.y
                     endRect.x = event.x
@@ -111,7 +110,7 @@ constructor(
                     path.reset()
                     path.moveTo(x ?: 0f, y ?: 0f)
                 } else {
-                    if (isRectangleMode) {
+                    if (isRectangleMode || isRoundMode) {
                         endRect.x = event.x
                         endRect.y = event.y
                     } else {
@@ -123,10 +122,13 @@ constructor(
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                if (isRectangleMode) {
-                    canvas?.drawRect(startRect.x, startRect.y, endRect.x, endRect.y, paint)
-                } else {
-                    touchUp()
+                when {
+                    isRectangleMode -> canvas?.drawRect(startRect.x, startRect.y, endRect.x, endRect.y, paint)
+                    isRoundMode -> canvas?.drawOval(startRect.x, startRect.y, endRect.x, endRect.y, paint)
+
+                    else -> {
+                        touchUp()
+                    }
                 }
 
                 invalidate()

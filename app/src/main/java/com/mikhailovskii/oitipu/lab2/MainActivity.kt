@@ -26,26 +26,37 @@ class MainActivity : AppCompatActivity() {
                 drawing_view.eraserSize.toInt(),
                 drawing_view.getPenColor()
             )
-            dialog.show(supportFragmentManager, "SettingsDialog")
 
-            dialog.eraserSeekBarCallback = {
-                drawing_view.eraserSize = it.toFloat()
-            }
+            dialog.apply {
+                show(supportFragmentManager, "SettingsDialog")
 
-            dialog.penSeekBarCallback = {
-                drawing_view.penSize = it.toFloat()
-            }
+                eraserSeekBarCallback = {
+                    drawing_view.eraserSize = it.toFloat()
+                }
 
-            dialog.penColorCallback = {
-                drawing_view.setPenColor(it)
-            }
+                penSeekBarCallback = {
+                    drawing_view.penSize = it.toFloat()
+                }
 
-            dialog.lineCallback = {
-                drawing_view.isRectangleMode = false
-            }
+                penColorCallback = {
+                    drawing_view.setPenColor(it)
+                }
 
-            dialog.rectangleCallback = {
-                drawing_view.isRectangleMode = true
+                lineCallback = {
+                    drawing_view.isRectangleMode = false
+                    drawing_view.isRoundMode = false
+                }
+
+                rectangleCallback = {
+                    drawing_view.isRectangleMode = true
+                    drawing_view.isRoundMode = false
+                }
+
+                circleCallback = {
+                    drawing_view.isRectangleMode = false
+                    drawing_view.isRoundMode = true
+                }
+
             }
 
         }
