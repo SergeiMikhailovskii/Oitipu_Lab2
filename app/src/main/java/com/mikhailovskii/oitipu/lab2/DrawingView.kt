@@ -19,6 +19,8 @@ class DrawingView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    var canvasColor = Color.WHITE
+
     var penSize = 10f
         set(value) {
             field = value
@@ -81,23 +83,36 @@ class DrawingView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val x = event?.x
-        val y = event?.y
-
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                startRect.x = event.x
-                startRect.y = event.y
-                endRect.x = event.x
-                endRect.y = event.y
+                if (isDrawMode) {
+                    startRect.x = event.x
+                    startRect.y = event.y
+                    endRect.x = event.x
+                    endRect.y = event.y
+                } else {
+                    path.reset()
+                    path.moveTo(event.x, event.y)
+                    canvas?.drawPath(path, paint)
+                }
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
 
                 if (!isDrawMode) {
-                    path.lineTo(this.localX, this.localY)
-                    path.reset()
-                    path.moveTo(x ?: 0f, y ?: 0f)
+                    endRect.x = event.x
+                    endRect.y = event.y
+
+                    val localPaint = Paint().apply {
+                        color = canvasColor
+                        strokeWidth = eraserSize
+                    }
+
+                    canvas?.drawLine(startRect.x, startRect.y, endRect.x, endRect.y, localPaint)
+
+                    startRect.x = endRect.x
+                    startRect.y = endRect.y
+
                 } else {
                     endRect.x = event.x
                     endRect.y = event.y
@@ -164,7 +179,9 @@ class DrawingView @JvmOverloads constructor(
     }
 
     fun changeBackground(color: Int = Color.WHITE) {
+        canvasColor = color
         canvas?.drawColor(color)
+        invalidate()
     }
 
     fun setPenColor(@ColorInt color: Int) {

@@ -79,7 +79,7 @@
         android:id="@+id/btn_circle"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:background="#F3EECB"
         android:padding="4dp"
@@ -91,12 +91,50 @@
         android:id="@+id/btn_rectangle"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:background="#F3EECB"
         android:padding="4dp"
         android:src="@drawable/ic_rectangle"
         app:layout_constraintStart_toEndOf="@id/btn_circle"
+        app:layout_constraintTop_toBottomOf="@id/iv_pen" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_fill"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_fill"
+        app:layout_constraintStart_toEndOf="@id/btn_rectangle"
+        app:layout_constraintTop_toBottomOf="@id/iv_pen" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_change_fill"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:theme="@style/Theme.MaterialComponents"
+        app:cornerRadius="16dp"
+        app:layout_constraintStart_toEndOf="@id/iv_fill"
+        app:layout_constraintTop_toBottomOf="@id/iv_pen" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_save"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="#F3EECB"
+        android:padding="4dp"
+        android:src="@drawable/ic_save"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_pen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

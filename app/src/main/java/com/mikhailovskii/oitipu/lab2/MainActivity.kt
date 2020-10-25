@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mikhailovskii.oitipu.lab2.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,11 +24,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.ivSettings.setOnClickListener {
-//            binding.drawingView.changeBackground()
             val dialog = SettingsBottomSheetDialogFragment.newInstance(
                 binding.drawingView.penSize.toInt(),
                 binding.drawingView.eraserSize.toInt(),
-                binding.drawingView.getPenColor()
+                binding.drawingView.getPenColor(),
+                binding.drawingView.canvasColor
             )
 
             dialog.apply {
@@ -63,6 +62,10 @@ class MainActivity : AppCompatActivity() {
                     binding.drawingView.isRectangleMode = false
                     binding.drawingView.isRoundMode = true
                     dialog.dismiss()
+                }
+
+                backgroundColorCallback = {
+                    binding.drawingView.changeBackground(it)
                 }
 
             }
