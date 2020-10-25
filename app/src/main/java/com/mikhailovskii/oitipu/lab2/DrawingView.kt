@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.Bitmap.CompressFormat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
@@ -32,9 +31,6 @@ class DrawingView @JvmOverloads constructor(
             field = value
             initializeEraser()
         }
-
-    private var localX = 0f
-    private var localY = 0f
 
     private var startRect = PointF(0f, 0f)
     private var endRect = PointF(0f, 0f)
@@ -100,6 +96,9 @@ class DrawingView @JvmOverloads constructor(
             MotionEvent.ACTION_MOVE -> {
 
                 if (!isDrawMode) {
+                    isRoundMode = false
+                    isRectangleMode = false
+
                     endRect.x = event.x
                     endRect.y = event.y
 
@@ -198,36 +197,15 @@ class DrawingView @JvmOverloads constructor(
     }
 
     fun saveImage(
-        filePath: String?,
-        filename: String,
-        format: CompressFormat?,
-        quality: Int
-    ): Boolean {
-        if (quality > 100) {
-            Log.d("saveImage", "quality cannot be greater that 100")
-            return false
-        }
-
+    ) {
+        val quality = 100
+        val fileName = "image"
         val file: File
         var out: FileOutputStream? = null
         try {
-            return when (format) {
-                CompressFormat.PNG -> {
-                    file = File(filePath, "$filename.png")
-                    out = FileOutputStream(file)
-                    bitmap?.compress(CompressFormat.PNG, quality, out) ?: false
-                }
-                CompressFormat.JPEG -> {
-                    file = File(filePath, "$filename.jpg")
-                    out = FileOutputStream(file)
-                    bitmap?.compress(CompressFormat.JPEG, quality, out) ?: false
-                }
-                else -> {
-                    file = File(filePath, "$filename.png")
-                    out = FileOutputStream(file)
-                    bitmap?.compress(CompressFormat.PNG, quality, out) ?: false
-                }
-            }
+            file = File("path", "$fileName.png")
+            out = FileOutputStream(file)
+            bitmap?.compress(CompressFormat.PNG, quality, out)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -237,7 +215,6 @@ class DrawingView @JvmOverloads constructor(
                 e.printStackTrace()
             }
         }
-        return false
     }
 
 
