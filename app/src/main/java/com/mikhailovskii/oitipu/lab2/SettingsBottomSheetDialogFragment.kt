@@ -38,6 +38,8 @@ class SettingsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     var rectangleCallback: (() -> Unit)? = null
     var circleCallback: (() -> Unit)? = null
 
+    var onSaveClick: (() -> Unit)? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -142,6 +144,10 @@ class SettingsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                         .show()
                 }
 
+            }
+
+            btnSave.setOnClickListener {
+                onSaveClick?.invoke()
             }
 
         }

@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.Bitmap.CompressFormat
+import android.os.Environment
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -196,25 +199,12 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun saveImage(
-    ) {
-        val quality = 100
-        val fileName = "image"
-        val file: File
-        var out: FileOutputStream? = null
-        try {
-            file = File("path", "$fileName.png")
-            out = FileOutputStream(file)
-            bitmap?.compress(CompressFormat.PNG, quality, out)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                out?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
+    fun saveImage() {
+        val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+        val file = File(imagesDir, "image.png")
+        val outputStream = FileOutputStream(file)
+        bitmap?.compress(CompressFormat.PNG, 100, outputStream)
+        outputStream.close()
     }
 
 

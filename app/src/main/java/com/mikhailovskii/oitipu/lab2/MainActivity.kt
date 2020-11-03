@@ -1,6 +1,8 @@
 package com.mikhailovskii.oitipu.lab2
 
+import android.Manifest
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mikhailovskii.oitipu.lab2.databinding.ActivityMainBinding
@@ -8,6 +10,12 @@ import com.mikhailovskii.oitipu.lab2.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val saveImagePermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result)
+                binding.drawingView.saveImage()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +74,10 @@ class MainActivity : AppCompatActivity() {
 
                 backgroundColorCallback = {
                     binding.drawingView.changeBackground(it)
+                }
+
+                onSaveClick = {
+                    saveImagePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
 
             }
